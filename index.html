@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>Valerii Efimov — Senior Backend Engineer · PHP / Symfony / Laravel</title>
+<meta name="description" content="Senior Backend Engineer with 9+ years of experience. PHP, Symfony, Laravel, microservices, AWS, Kubernetes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F9FC;
+  --surface:#FFFFFF;
+  --code-bg:#0D1321;
+  --code-line:#1C2537;
+  --ink:#111827;
+  --muted:#5B6472;
+  --accent:#5A5FDB;         /* PHP-family indigo */
+  --accent-soft:#EDEEFC;
+  --get:#1F9D66;            /* GET badge */
+  --get-soft:#E4F5EC;
+  --post:#C2571B;           /* POST badge */
+  --post-soft:#FBEDE2;
+  --border:#E3E8F0;
+  --json-key:#8BE9C3;
+  --json-str:#C4C9FF;
+  --json-num:#F2C97D;
+  --radius:14px;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+/* ---------- Dark theme (auto) ---------- */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0B0F1A;
+    --surface:#131A2A;
+    --code-bg:#0D1321;
+    --code-line:#1C2537;
+    --ink:#E9EDF7;
+    --muted:#9AA4BA;
+    --accent:#8B8FF0;
+    --accent-soft:#242A52;
+    --get:#4CC98A;
+    --get-soft:#11301F;
+    --post:#F0925A;
+    --post-soft:#3A2313;
+    --border:#242E45;
+  }
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(247,249,252,.85);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+@media (prefers-color-scheme: dark){
+  .nav{background:rgba(11,15,26,.82)}
+}
+.nav-inner{
+  display:flex;align-items:center;gap:16px;
+  height:58px;max-width:960px;margin:0 auto;padding:0 20px;
+}
+.logo{
+  font-family:var(--mono);font-weight:600;font-size:.95rem;
+  color:var(--ink);white-space:nowrap;
+}
+.logo span{color:var(--accent)}
+.nav-links{
+  display:flex;gap:4px;margin-left:auto;
+  overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{
+  font-family:var(--mono);font-size:.78rem;color:var(--muted);
+  padding:6px 10px;border-radius:8px;white-space:nowrap;
+}
+.nav-links a:hover{background:var(--accent-soft);color:var(--accent);text-decoration:none}
+
+/* ---------- Hero terminal ---------- */
+.hero{padding:56px 0 26px}
+.terminal{
+  background:var(--code-bg);
+  border-radius:var(--radius);
+  box-shadow:0 24px 60px -24px rgba(17,24,39,.35);
+  overflow:hidden;
+}
+.term-bar{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 16px;border-bottom:1px solid var(--code-line);
+}
+.dot{width:11px;height:11px;border-radius:50%;background:#3A465E}
+.dot:nth-child(1){background:#EF6A5A}
+.dot:nth-child(2){background:#F5BE4F}
+.dot:nth-child(3){background:#57C462}
+.term-title{
+  font-family:var(--mono);font-size:.72rem;color:#66738C;
+  margin-left:auto;
+}
+.term-body{
+  padding:22px 22px 26px;
+  font-family:var(--mono);
+  font-size:clamp(.76rem,2.6vw,.92rem);
+  line-height:1.75;
+  color:#DDE3F0;
+  overflow-x:auto;
+}
+.prompt{color:#57C462}
+.cmd{color:#DDE3F0}
+.cursor{
+  display:inline-block;width:.55em;height:1.15em;
+  background:#DDE3F0;vertical-align:text-bottom;
+  animation:blink 1s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+.resp{opacity:0;transform:translateY(6px);transition:opacity .5s ease,transform .5s ease}
+.resp.show{opacity:1;transform:none}
+.status-line{color:#66738C;margin-top:6px}
+.status-200{color:#57C462;font-weight:600}
+.k{color:var(--json-key)}
+.s{color:var(--json-str)}
+.n{color:var(--json-num)}
+.p{color:#66738C}
+
+.hero-actions{
+  display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;
+}
+.btn{
+  font-family:var(--mono);font-size:.85rem;font-weight:500;
+  padding:12px 20px;border-radius:10px;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-primary{
+  background:var(--accent);color:#fff;
+  box-shadow:0 10px 24px -10px rgba(90,95,219,.6);
+}
+.btn-primary:hover{box-shadow:0 14px 28px -10px rgba(90,95,219,.7)}
+.btn-ghost{
+  background:var(--surface);color:var(--ink);
+  border:1px solid var(--border);
+}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- Endpoint sections ---------- */
+section{padding:54px 0 8px}
+.endpoint{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  margin-bottom:8px;
+}
+.method{
+  font-family:var(--mono);font-size:.72rem;font-weight:600;
+  letter-spacing:.06em;
+  padding:4px 10px;border-radius:7px;
+}
+.method.get{background:var(--get-soft);color:var(--get)}
+.method.post{background:var(--post-soft);color:var(--post)}
+.path{
+  font-family:var(--mono);font-weight:600;
+  font-size:clamp(1.25rem,4.5vw,1.7rem);
+  word-break:break-word;
+}
+.endpoint-desc{color:var(--muted);max-width:640px;margin-bottom:28px}
+
+/* ---------- Experience cards ---------- */
+.job{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px 26px;
+  margin-bottom:18px;
+  transition:box-shadow .2s ease,border-color .2s ease;
+}
+.job:hover{border-color:#C9CEF5;box-shadow:0 14px 34px -20px rgba(17,24,39,.25)}
+@media (prefers-color-scheme: dark){
+  .job:hover{border-color:#3D4870;box-shadow:0 14px 34px -20px rgba(0,0,0,.6)}
+}
+.job-head{
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  margin-bottom:2px;
+}
+.job-title{font-weight:700;font-size:1.06rem}
+.job-status{
+  font-family:var(--mono);font-size:.68rem;font-weight:600;
+  color:var(--get);background:var(--get-soft);
+  padding:2px 8px;border-radius:6px;
+}
+.job-meta{
+  font-family:var(--mono);font-size:.76rem;color:var(--muted);
+  margin-bottom:14px;
+}
+.job ul{list-style:none;display:grid;gap:9px;margin-bottom:16px}
+.job li{
+  position:relative;padding-left:20px;
+  color:#333C4D;font-size:.94rem;
+}
+@media (prefers-color-scheme: dark){
+  .job li{color:#C7CFE0}
+  .chip{background:#0F1524}
+  .btn-ghost{background:var(--surface)}
+  .terminal{box-shadow:0 24px 60px -24px rgba(0,0,0,.8);border:1px solid var(--code-line)}
+}
+.job li::before{
+  content:"–";position:absolute;left:2px;color:var(--accent);
+  font-weight:600;
+}
+.job li b{color:var(--ink)}
+.stack{
+  display:flex;flex-wrap:wrap;gap:7px;
+  border-top:1px dashed var(--border);padding-top:14px;
+}
+.chip{
+  font-family:var(--mono);font-size:.7rem;
+  background:var(--bg);border:1px solid var(--border);
+  color:var(--muted);
+  padding:3px 9px;border-radius:6px;white-space:nowrap;
+}
+
+/* ---------- Skills ---------- */
+.skills-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
+}
+.skill-group{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 22px;
+}
+.skill-group h3{
+  font-family:var(--mono);font-size:.72rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:12px;
+}
+.skill-group .chips{display:flex;flex-wrap:wrap;gap:7px}
+.skill-group .chip{font-size:.74rem;padding:4px 10px}
+
+/* ---------- Education ---------- */
+.edu{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:22px 26px;
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.edu b{display:block}
+.edu span{color:var(--muted);font-size:.92rem}
+.edu .year{font-family:var(--mono);color:var(--muted);font-size:.85rem}
+
+/* ---------- Contact ---------- */
+.contact-card{
+  background:var(--code-bg);color:#DDE3F0;
+  border-radius:var(--radius);
+  padding:34px 30px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:22px;flex-wrap:wrap;
+}
+.contact-card h3{font-size:1.3rem;margin-bottom:6px}
+.contact-card p{color:#8B95AC;font-size:.94rem;max-width:420px}
+.contact-actions{display:flex;gap:12px;flex-wrap:wrap}
+.contact-card .btn-ghost{
+  background:transparent;color:#DDE3F0;border-color:#2A3550;
+}
+.contact-card .btn-ghost:hover{border-color:var(--accent);color:#fff}
+
+footer{
+  padding:44px 0 36px;text-align:center;
+  font-family:var(--mono);font-size:.72rem;color:var(--muted);
+}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- Mobile ---------- */
+@media (max-width:640px){
+  .hero{padding-top:34px}
+  .term-body{padding:18px 16px 20px}
+  .skills-grid{grid-template-columns:1fr}
+  .job{padding:20px 18px}
+  .contact-card{padding:28px 22px}
+  section{padding:44px 0 6px}
+  .btn{width:100%;justify-content:center}
+  .hero-actions{gap:10px}
+}
+@media (max-width:400px){
+  .term-title{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">valerii<span>.</span>efimov</div>
+    <div class="nav-links">
+      <a href="#experience">/experience</a>
+      <a href="#skills">/skills</a>
+      <a href="#education">/education</a>
+      <a href="#contact">/contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="terminal">
+    <div class="term-bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="term-title">bash — efimov@prod</span>
+    </div>
+    <div class="term-body">
+      <div><span class="prompt">$</span> <span class="cmd" id="typed"></span><span class="cursor" id="cursor"></span></div>
+      <div class="resp" id="resp">
+        <div class="status-line">HTTP/1.1 <span class="status-200">200 OK</span> · content-type: application/json</div>
+        <pre style="margin-top:4px;white-space:pre;overflow-x:auto">{
+  <span class="k">"name"</span><span class="p">:</span> <span class="s">"Valerii Efimov"</span><span class="p">,</span>
+  <span class="k">"role"</span><span class="p">:</span> <span class="s">"Senior Backend Engineer"</span><span class="p">,</span>
+  <span class="k">"stack"</span><span class="p">:</span> [<span class="s">"PHP"</span><span class="p">,</span> <span class="s">"Symfony"</span><span class="p">,</span> <span class="s">"Laravel"</span>]<span class="p">,</span>
+  <span class="k">"experience_years"</span><span class="p">:</span> <span class="n">9</span><span class="p">,</span>
+  <span class="k">"focus"</span><span class="p">:</span> [<span class="s">"microservices"</span><span class="p">,</span> <span class="s">"AWS"</span><span class="p">,</span> <span class="s">"Kubernetes"</span>]<span class="p">,</span>
+  <span class="k">"motto"</span><span class="p">:</span> <span class="s">"I ship — and I make sure it keeps running."</span>
+}</pre>
+      </div>
+    </div>
+  </div>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#contact">POST /contact →</a>
+    <a class="btn btn-ghost" href="https://linkedin.com/in/valerii-efimov" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="experience" class="reveal">
+    <div class="endpoint">
+      <span class="method get">GET</span>
+      <span class="path">/experience</span>
+    </div>
+    <p class="endpoint-desc">Returns 9+ years of production experience. Owning features end to end — from architecture to the day it keeps running.</p>
+
+    <article class="job reveal">
+      <div class="job-head">
+        <span class="job-title">Senior Full Stack Developer · Octopus AI</span>
+        <span class="job-status">200 OK</span>
+      </div>
+      <div class="job-meta">Dec 2022 → Apr 2026 · USA, remote · formerly Loadify</div>
+      <ul>
+        <li>Architected and delivered <b>9 core TMS modules</b> (Loads, Drivers, Trucks, Vendors, Payroll, Fuel, Tolls) with Symfony REST APIs — cut manual dispatch data entry by <b>70%</b>.</li>
+        <li>Spearheaded a monolith → microservices migration over RabbitMQ/SQS: deployment frequency <b>×4</b>, production incidents <b>−25%</b>.</li>
+        <li>Implemented JWT auth / RBAC, integrated routing, fuel and toll providers; optimized Doctrine queries, indexing and caching — average API response time <b>−35%</b> on large datasets.</li>
+        <li>Engineered an OpenAI-powered Rate Confirmation extraction pipeline, saving the ops team <b>~15 hours/week</b>.</li>
+        <li>Established PHPUnit coverage and a formal code review process.</li>
+      </ul>
+      <div class="stack">
+        <span class="chip">Symfony</span><span class="chip">PHP</span><span class="chip">MySQL</span><span class="chip">ClickHouse</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">AWS</span><span class="chip">Vue.js</span><span class="chip">Stimulus</span><span class="chip">OpenAI API</span>
+      </div>
+    </article>
+
+    <article class="job reveal">
+      <div class="job-head">
+        <span class="job-title">Senior Full Stack Developer · Drum'N'Code</span>
+        <span class="job-status">200 OK</span>
+      </div>
+      <div class="job-meta">May 2020 → Dec 2022 · Remote</div>
+      <ul>
+        <li><b>Video Content Web Service.</b> Designed a high-throughput video ingestion, processing and streaming pipeline on AWS (S3, CloudFront) with a Laravel backend — <b>×10</b> concurrent upload capacity, zero downtime.</li>
+        <li><b>Pin The Look.</b> Built the full-stack CRM (Laravel + Vue.js) for a social shopping platform from 0 to 1 — <b>+45%</b> weekly active user growth in the first quarter.</li>
+      </ul>
+      <div class="stack">
+        <span class="chip">Laravel</span><span class="chip">PHP</span><span class="chip">Vue.js</span><span class="chip">MySQL</span><span class="chip">AWS S3</span><span class="chip">CloudFront</span>
+      </div>
+    </article>
+
+    <article class="job reveal">
+      <div class="job-head">
+        <span class="job-title">Full Stack Developer · Freelance</span>
+        <span class="job-status">200 OK</span>
+      </div>
+      <div class="job-meta">2017 → Apr 2020 · Remote</div>
+      <ul>
+        <li><b>Smart Vending.</b> Engineered a CRM + IoT-connected vending app (Laravel, Lumen) — scaled to <b>50+ office deployments</b>, recurring revenue <b>×3</b>.</li>
+        <li><b>Online Flower Shop.</b> Optimized the e-commerce checkout flow — order completion rate <b>+20%</b>, lower cart abandonment.</li>
+        <li><b>Document Management CRM.</b> Automated approval workflows — processing time <b>−60%</b>.</li>
+      </ul>
+      <div class="stack">
+        <span class="chip">Laravel</span><span class="chip">Lumen</span><span class="chip">Vue.js</span><span class="chip">MySQL</span><span class="chip">Raspberry Pi</span>
+      </div>
+    </article>
+  </section>
+
+  <section id="skills" class="reveal">
+    <div class="endpoint">
+      <span class="method get">GET</span>
+      <span class="path">/skills</span>
+    </div>
+    <p class="endpoint-desc">Full response schema — from backend core to the cloud it runs in.</p>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <h3>backend</h3>
+        <div class="chips">
+          <span class="chip">PHP</span><span class="chip">Laravel</span><span class="chip">Symfony</span><span class="chip">Lumen</span><span class="chip">Doctrine ORM</span><span class="chip">REST / JSON</span><span class="chip">SOAP</span><span class="chip">PHPUnit</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h3>data &amp; messaging</h3>
+        <div class="chips">
+          <span class="chip">MySQL / MariaDB</span><span class="chip">PostgreSQL</span><span class="chip">ClickHouse</span><span class="chip">DynamoDB</span><span class="chip">Redis</span><span class="chip">ElasticSearch</span><span class="chip">RabbitMQ</span><span class="chip">SQS</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h3>cloud &amp; devops</h3>
+        <div class="chips">
+          <span class="chip">AWS · EC2 / S3 / RDS / IAM</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">GitHub Actions</span><span class="chip">GitLab CI</span><span class="chip">Nginx</span><span class="chip">Apache</span><span class="chip">Sentry</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h3>architecture</h3>
+        <div class="chips">
+          <span class="chip">Microservices</span><span class="chip">Distributed Systems</span><span class="chip">DDD</span><span class="chip">Clean Architecture</span><span class="chip">SOLID</span><span class="chip">TDD</span><span class="chip">API-first</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h3>frontend</h3>
+        <div class="chips">
+          <span class="chip">JavaScript / TypeScript</span><span class="chip">Vue.js</span><span class="chip">Vuex</span><span class="chip">Stimulus.js</span><span class="chip">Tailwind</span><span class="chip">SCSS</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h3>languages</h3>
+        <div class="chips">
+          <span class="chip">Ukrainian · native</span><span class="chip">English · upper-intermediate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="reveal">
+    <div class="endpoint">
+      <span class="method get">GET</span>
+      <span class="path">/education</span>
+    </div>
+    <div class="edu">
+      <div>
+        <b>M.Sc., Software Engineering</b>
+        <span>Zaporizhzhya National University</span>
+      </div>
+      <div class="year">2017</div>
+    </div>
+  </section>
+
+  <section id="contact" class="reveal">
+    <div class="endpoint">
+      <span class="method post">POST</span>
+      <span class="path">/contact</span>
+    </div>
+    <p class="endpoint-desc">Accepts new opportunities. Typical response time: fast.</p>
+    <div class="contact-card">
+      <div>
+        <h3>Let's build something that keeps running.</h3>
+        <p>Open to senior backend roles — PHP / Symfony / Laravel, microservices, AWS.</p>
+      </div>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="mailto:valera.efimov.dev@gmail.com">Send email</a>
+        <a class="btn btn-ghost" href="https://linkedin.com/in/valerii-efimov" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 Valerii Efimov · uptime: 9+ years · exit 0
+</footer>
+
+<script>
+// Typed hero command
+(function(){
+  const cmd = 'curl -s https://efimov.dev/cv';
+  const el = document.getElementById('typed');
+  const resp = document.getElementById('resp');
+  const cursor = document.getElementById('cursor');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce){ el.textContent = cmd; resp.classList.add('show'); return; }
+  let i = 0;
+  (function type(){
+    if (i <= cmd.length){
+      el.textContent = cmd.slice(0, i++);
+      setTimeout(type, 34 + Math.random()*36);
+    } else {
+      setTimeout(()=>{ resp.classList.add('show'); cursor.style.display='none'; }, 350);
+    }
+  })();
+})();
+
+// Scroll reveal
+(function(){
+  const els = document.querySelectorAll('.reveal');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)){
+    els.forEach(e=>e.classList.add('in')); return;
+  }
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  },{threshold:.08});
+  els.forEach(e=>io.observe(e));
+})();
+</script>
+</body>
+</html>
